@@ -7,5 +7,6 @@ urlpatterns = [
     path('maxpages', views.getMaxDataPage, name='maxpages'),
     path('bestplayers', views.bestPlayers, name='bestplayers'),
     path('importantAbilities', views.importantAbilitites, name='importantAbilities'),
+    path('team', views.bestTeam, name='bestTeam'),
     path('', views.hello, name='hello')
 ]

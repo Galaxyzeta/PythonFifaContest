@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>All Players</title>
+	<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+	<script src="../js/test.js"></script>
+	<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+	<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="../css/custom.css">
+</head>
+<body>
+	<!-- Top Banner -->
+	<div class="c-banner">
+		<h1>FIFA19-Dataset</h1>
+	</div>
+	<br/>
+
+	<!-- Main -->
+	<div class="row">
+		<!--Start Left Bar-->
+		<div class="col-2">
+			<div class="container">
+				<div class="list-group">
+					<button type="button" class="list-group-item list-group-item-action active">All Players</button>
+					<a href="best_players.html"><button type="button" class="list-group-item list-group-item-action">Best Players</button></a>
+					<button type="button" class="list-group-item list-group-item-action">Analysis</button>
+				</div>
+			</div>
+		</div>
+		<!-- End Left Bar-->
+		<!-- Start Middle Bar-->
+		<div class="col-8">
+			<div class="container">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Photo</th>
+							<th>Name</th>
+							<th>Age</th>
+							<th>Nationality</th>
+							<th>Position</th>
+							<th>Overall</th>
+						</tr>
+					</thead>
+					<tbody id="mainInject">
+						<!--
+						<tr>
+							<td scope="row"><img src="https://cdn.sofifa.com/players/158/023/19_60.png" alt=""></td>
+							<td>L.Messi</td>
+							<td>31</td>
+							<td>Argentina</td>
+							<td>LT</td>
+							<td>99</td>
+						</tr>
+						-->
+					</tbody>
+				</table>
+			</div>
+			<!-- End Middle Bar-->
+			<!-- Start Right Bar-->
+			<div class="col-2">
+				
+			</div>
+			<!-- End Right Bar-->
+		</div>
+	</div>
+
+	<!-- Foot Nav-->
+	<div class="container">
+		<nav aria-label="Page navigation">
+			<ul class="pagination" id="pagination">
+			</ul>
+		</nav>
+	</div>
+	<!--Ajax Test-->
+	<script>
+		init()
+	</script>
+</body>
+</html>

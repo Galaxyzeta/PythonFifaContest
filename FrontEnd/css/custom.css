@@ -1,0 +1,11 @@
+.table td {
+	vertical-align: middle;
+}
+
+div.c-banner {
+	min-width: 100%;
+	min-height: 96px;
+	text-align: center;
+	color: white;
+	background-color: cadetblue;
+}

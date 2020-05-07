@@ -1,2 +1,13 @@
 # PythonFifaContest
-Fifa19数据集的数据挖掘django后端
+这是HDU Python竞赛关于Fifa数据集的数据挖掘与web展示项目。
+技术：
+- 后端：django
+- 前端：html+css+js+bootstrap+chart.js(待用)
+
+## 简介
+1. 在 AllPlayer 页面展示所有的球员简略信息，带分页。
+2. 在 BestPlayer 页面选择10人职业，查询最佳选择后，前端canvas绘制球员在足球场的位置。
+
+## Todo
+1. 在前端添加 Analysis 页面，调用后端给出的数据生成图表进行展示。
+2. 增加更多的后端分析函数，以备前端使用。

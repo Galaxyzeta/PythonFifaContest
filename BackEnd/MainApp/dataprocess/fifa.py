@@ -36,7 +36,7 @@ ability = ['Crossing',
        'GKKicking', 'GKPositioning', 'GKReflexes']
 
 
-def bestPlayers():
+def bestPlayersEachPosition():
 	df = pd.read_csv(FIFA_DIR, encoding="utf-8")
 	construct = pd.DataFrame()
 	best_players:pd.DataFrame = pd.DataFrame()
@@ -49,10 +49,47 @@ def bestPlayers():
 		best_players[position] = 0
 		for factor in construct[position]:
 			best_players[position] += df[factor]
-	
 	for position in construct.columns:
-		jason[position] = best_players[['Name', position]].sort_values(by=position, ascending=False).dropna().reset_index(drop=True).iloc[0:5,0:2].to_json(orient="records")
-	
+		jason[position] = best_players[['Name', position]].sort_values(by=position, ascending=False).dropna().reset_index(drop=True).iloc[0:5,0:2]
+	return jason
+
+def bestPositionGeneral(c_gk, c_dfd, c_mid, c_fwd):
+	df = pd.read_csv(FIFA_DIR, encoding="utf-8")
+	construct = pd.DataFrame()
+	best_players:pd.DataFrame = pd.DataFrame()
+	best_players['Name'] = df['Name']
+	jason = dict()
+	for group, features in df.groupby(by="Position")[ability].mean().iterrows():
+		importantFeatures = dict(features.nlargest(5))
+		construct[group] = tuple(importantFeatures.keys())
+	for position in construct.columns:
+		best_players[position] = 0
+		for factor in construct[position]:
+			best_players[position] += df[factor]
+	for position in construct.columns:
+		jason[position] = best_players[['Name', position]].sort_values(by=position, ascending=False).dropna().reset_index(drop=True).iloc[0:5,0:2]
+
+	gk = ['GK']
+	fwd = ['LS', 'ST', 'RS','LF', 'CF', 'RF']
+	mid = ['LW','RW', 'LAM', 'CAM', 'RAM', 'LM', 'LCM', 'CM', 'RCM', 'RM', 'LDM', 'CDM', 'RDM']
+	dfd = ['LWB','RWB', 'LB', 'LCB', 'CB']
+
+	choosed = {}
+	# c_gk = ['GK']
+	# c_dfd = ['LWB' , 'LCB' , 'RCB' , 'RWB']
+	# c_mid = ['LW' , 'LCM' , 'CM' , 'RW']
+	# c_fwd = ['LS' , 'RS']
+	tot = [c_fwd, c_mid, c_dfd, c_gk]
+	for maintype in tot:
+		for pos in maintype:
+			for playerId in range(len(jason[pos])):
+				player = jason[pos].iloc[playerId, 0]
+				if player in choosed.values():
+					continue
+				else:
+					choosed[pos] = player
+					break
+	print(choosed)
 
 def topOverall(topk=30):
 	df = pd.read_csv(FIFA_DIR, encoding="utf-8")[['Name', 'Overall']]
@@ -87,4 +124,4 @@ def getMaxPages():
 	return len(df)
 
 if __name__ == "__main__":
-	bestPlayers()
+	bestPlayersEachPosition()
