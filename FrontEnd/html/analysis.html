@@ -86,7 +86,7 @@
             </table>
 
             <div class="my-4">
-                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">老当益壮 <span class="d-block bg-dark">年龄&&总评</span></span>
+                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">老当益壮<span class="d-block bg-dark">年龄&&总评</span></span>
               <!-- <span class="d-block p-2 bg-success text-white">d-block</span>-->
                 <div id="chart-1" style="width: 1200px;height: 400px;max-height: 800px" class="col-12"></div>
                 <script>
@@ -96,7 +96,7 @@
             </div>
 
             <div class="my-4">
-                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">大力出奇迹<span class="d-block bg-dark">脚力&&进球</span></span>
+                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">大力出奇迹：看看大脚与射门的关系<span class="d-block bg-dark">脚力&&进球</span></span>
               <!-- <span class="d-block p-2 bg-success text-white">d-block</span>-->
                 <div id="chart-2" style="width: 1200px;height: 400px;max-height: 800px" class="col-12"></div>
                 <script>
@@ -106,17 +106,17 @@
             </div>
 
             <div class="my-4">
-                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">按v开启鹰眼<span class="d-block bg-dark">任意球精准度&&视力</span></span>
+                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">按v开启鹰眼:视力会不会增加任意球准度<span class="d-block bg-dark">任意球精准度&&视力</span></span>
               <!-- <span class="d-block p-2 bg-success text-white">d-block</span>-->
                 <div id="chart-3" style="width: 1200px;height: 400px;max-height: 800px" class="col-12"></div>
                 <script>
                     debug=true
-                    renderScatterPot("chart-3","FKAccuracy","Vision")
+                    renderScatterPot("chart-3","Vision","FKAccuracy")
                 </script>
             </div>
 
             <div class="my-4">
-                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">经验丰富 <span class="d-block bg-dark">年龄&&薪资</span></span>
+                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">经验丰富:老球员是否更吃香？<span class="d-block bg-dark">年龄&&薪资</span></span>
               <!-- <span class="d-block p-2 bg-success text-white">d-block</span>-->
                 <div id="chart-4" style="width: 1200px;height: 400px;max-height: 800px" class="col-12"></div>
                 <script>
@@ -136,7 +136,7 @@
             </div>
 
             <div class="my-4">
-                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">精准打击： <span class="d-block bg-dark">球员价值&&任意球精准度</span></span>
+                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">精准打击：任意球精准的人能不能获得更高的薪水呢 <span class="d-block bg-dark">球员价值&&任意球精准度</span></span>
               <!-- <span class="d-block p-2 bg-success text-white">d-block</span>-->
                 <div id="chart-6" style="width: 1200px;height: 400px;max-height: 800px" class="col-12"></div>
                 <script>
@@ -144,6 +144,28 @@
                     renderScatterPot("chart-6","FKAccuracy","Value")
                 </script>
             </div>
+
+            <div class="my-4">
+                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">惯用脚大调查 </span>
+              <!-- <span class="d-block p-2 bg-success text-white">d-block</span>-->
+                <div id="chart-7" style="width: 1200px;height: 400px;max-height: 800px" class="col-12"></div>
+                <script>
+                    debug=true
+                    renderPiePot("chart-7","Preferred Foot")
+                </script>
+            </div>
+
+
+            <div class="my-4">
+                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">国际大调查 </span>
+              <!-- <span class="d-block p-2 bg-success text-white">d-block</span>-->
+                <div id="chart-8" style="width: 1200px;height: 400px;max-height: 800px" class="col-12"></div>
+                <script>
+                    debug=true
+                    renderPiePot("chart-8","Nationality")
+                </script>
+            </div>
+
 
 
         </div>

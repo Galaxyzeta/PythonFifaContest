@@ -16,13 +16,15 @@ def resolveWage(x):
     else:
         return 0
 
+
 def resolveValue(x):
     if (x.endswith("M")):
         return float(x[1:-1])
     elif (x.endswith("K")):
-        return float(x[1:-1])/10
+        return float(x[1:-1]) / 10
     else:
         return 0
+
 
 df["Wage"] = df["Wage"].apply(resolveWage)
 df["Value"] = df["Value"].apply(resolveValue)
@@ -204,9 +206,21 @@ def scatterPot(request: HttpRequest):
     return rf.getSucessful("Query OK!", data)
 
 
-# Range : a condition
-# Groupby : column name ,a scatter value like country
+'''
+    可以用于展示，TOP500 惯用脚人数对比 等等
+    惯用脚
+'''
+
+
 def piePot(request: HttpRequest):
-    target = request.GET.get("target")
-    min = request.GET.get("min")
-    groupBy = request.GET.get("groupby")
+    factor1 = request.GET.get("factor1")
+    if not factor1:
+        return rf.getError("feature name is required", None)
+    if factor1 not in df:
+        return rf.getError("factor name is invalid")
+    optionValues = list(set(df[[factor1]].head(500)[factor1]))
+    resContainer = [optionValues]
+    for option in optionValues:
+        num = int(df[[factor1]].head(500).loc[df[factor1] == option].count()[factor1])
+        resContainer.append([option, num])
+    return rf.getSucessful("Query OK", resContainer)

@@ -10,5 +10,6 @@ urlpatterns = [
     path('team', views.bestTeam, name='bestTeam'),
     path('', views.hello, name='hello'),
     path('feature', views.featureRank, name='feature'),
-    path('scatter', views.scatterPot, name='scatter')
+    path('scatter', views.scatterPot, name='scatter'),
+    path('pie',views.piePot,name='pie')
 ]

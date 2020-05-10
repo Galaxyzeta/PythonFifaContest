@@ -309,6 +309,7 @@ function renderScatterPot(id, factor1, factor2) {
                     },
                     xAxis: [
                         {
+                            name: factor1,
                             type: 'value',
                             splitNumber: 1,
                             scale: true
@@ -316,6 +317,7 @@ function renderScatterPot(id, factor1, factor2) {
                     ],
                     yAxis: [
                         {
+                            name:factor2,
                             type: 'value',
                             splitNumber: 1,
                             scale: true
@@ -325,9 +327,7 @@ function renderScatterPot(id, factor1, factor2) {
                         {
                             name:factor1+" 比较 "+factor2,
                             type: 'scatter',
-                            symbolSize: function (value) {
-                                return Math.round((value[0] + value[1]) / 5);
-                            },
+                            symbolSize: 20,
                             data: itemContainer
                         }
                     ]
@@ -352,8 +352,95 @@ function renderScatterPot(id, factor1, factor2) {
                 </script>
             </div>
  */
-
+// TODO: 目的是想全部使用dom 动态生成 算是优化代码，暂不考虑。
 function renderMultScatter(factorList,NameList){
+
+}
+
+function renderPiePot(id,factor1){
+    var target = document.getElementById(id)
+    console.log(target)
+    console.log(!!target)
+    if (!!!target) {
+        showMessage("元素" + id + "不存在")
+    } else {
+        const url = urlPref + "pie?factor1=" + factor1;
+        ajax("get",url).then(function (res) {
+            console.log(res)
+            var opts = res[0]
+            var itemContainer =[]
+            if (!!!res){
+                showMessage("Error Getting Response,Plz Check in Chrome:" + url)
+            }else{
+                for (var i=1;i<res.length;i++){
+                    var item ={name:res[i][0],value:res[i][1]}
+                    itemContainer.push(item)
+                }
+            }
+            var option = {
+                title : {
+                    text: factor1,
+                    subtext: '前500名对比',
+                    x:'center'
+                },
+                tooltip : {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b} : {c} ({d}%)"
+                },
+                legend: {
+                    x : 'center',
+                    y : 'bottom',
+                    data:opts
+                },
+                toolbox: {
+                    show : true,
+                    feature : {
+                        mark : {show: true},
+                        dataView : {show: true, readOnly: false},
+                        magicType : {
+                            show: true,
+                            type: ['pie', 'funnel']
+                        },
+                        restore : {show: true},
+                        saveAsImage : {show: true}
+                    }
+                },
+                calculable : true,
+                series : [
+                    {
+                        name:'半径模式',
+                        type:'pie',
+                        radius : [20, 110],
+                        center : ['125%', '50%'],
+                        roseType : 'radius',
+                        width: '40%',       // for funnel
+                        max: 40,            // for funnel
+                        itemStyle : {
+                            normal : {
+                                label : {
+                                    show : false
+                                },
+                                labelLine : {
+                                    show : false
+                                }
+                            },
+                            emphasis : {
+                                label : {
+                                    show : true
+                                },
+                                labelLine : {
+                                    show : true
+                                }
+                            }
+                        },
+                        data:itemContainer
+                    },
+                ]
+            };
+            var sampleChart = echarts.init(target)
+            sampleChart.setOption(option)
+        })
+    }
 
 }
 
