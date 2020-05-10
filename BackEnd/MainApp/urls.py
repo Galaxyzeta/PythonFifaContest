@@ -8,5 +8,6 @@ urlpatterns = [
     path('bestplayers', views.bestPlayers, name='bestplayers'),
     path('importantAbilities', views.importantAbilitites, name='importantAbilities'),
     path('team', views.bestTeam, name='bestTeam'),
-    path('', views.hello, name='hello')
+    path('', views.hello, name='hello'),
+    path('feature', views.featureRank, name='feature')
 ]

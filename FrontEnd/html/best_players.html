@@ -1,109 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Best Players</title>
-	<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
-	<script src="../js/test.js"></script>
-	<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
-	<script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="../css/custom.css">
+    <meta charset="UTF-8">
+    <title>Best Players</title>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+    <script src="../js/test.js"></script>
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="../css/custom.css">
 </head>
 <body>
-	<!-- Top Banner -->
-	<div class="c-banner">
-		<h1>FIFA19-Dataset</h1>
-	</div>
-	<br/>
+<!-- Top Banner -->
+<div class="c-banner">
+    <h1>FIFA19-Dataset</h1>
+</div>
+<br/>
 
-	<!-- Main -->
-	<div class="row">
-		<!--Start Left Bar-->
-		<div class="col-2">
-			<div class="container">
-				<div class="list-group">
-					<a href="all_players.html"><button type="button" class="list-group-item list-group-item-action">All Players</button></a>
-					<button type="button" class="list-group-item list-group-item-action active">Best Players</button>
-					<button type="button" class="list-group-item list-group-item-action">Analysis</button>
-				</div>
-			</div>
-		</div>
-		<!-- End Left Bar-->
-		<!-- Start Middle Bar-->
-		<div class="col-8">
-			<div class="row">
-				<div class="col-4">
-					<div class="form-check">
-						<h5>Back-Field</h5>
-						<hr>
-						<form name="back">
-							<p><input type="checkbox" class="form-check-input" value="LWB"/>LWB</p>
-							<p><input type="checkbox" class="form-check-input" value="RWB"/>RWB</p>
-							<p><input type="checkbox" class="form-check-input" value="LB"/>LB</p>
-							<p><input type="checkbox" class="form-check-input" value="LCB"/>LCB</p>
-							<p><input type="checkbox" class="form-check-input" value="CB"/>CB</p>
-						</form>
-					</div>
-				</div>
-				<div class="col-4">
-					<div class="form-check">
-						<h5>Mid-Field</h5>
-						<hr>
-						<form name="mid">
-							<div class="row">
-								<div class="col-4">
-									<p><input type="checkbox" class="form-check-input" value="LCM"/>LCM</p>
-									<p><input type="checkbox" class="form-check-input" value="CM"/>CM</p>
-									<p><input type="checkbox" class="form-check-input" value="RCM"/>RCM</p>
-									<p><input type="checkbox" class="form-check-input" value="RM"/>RM</p>
-									<p><input type="checkbox" class="form-check-input" value="LDM"/>LDM</p>
-									<p><input type="checkbox" class="form-check-input" value="CDM"/>CDM</p>
-									<p><input type="checkbox" class="form-check-input" value="RDM"/>RDM</p>
-								</div>
-								<div class="col-4">
-									<p><input type="checkbox" class="form-check-input" value="LW"/>LW</p>
-									<p><input type="checkbox" class="form-check-input" value="RW"/>RW</p>
-									<p><input type="checkbox" class="form-check-input" value="LAM"/>LAM</p>
-									<p><input type="checkbox" class="form-check-input" value="CAM"/>CAM</p>
-									<p><input type="checkbox" class="form-check-input" value="RAM"/>RAM</p>
-									<p><input type="checkbox" class="form-check-input" value="LM"/>LM</p>
-								</div>
-							</div>
-						</form>
-					</div>
-				</div>
-				<div class="col-4">
-					<div class="form-check">
-						<!--fwd = ['LS', 'ST', 'RS','LF', 'CF', 'RF']-->
-						<h5>Front-Field</h5>
-						<hr>
-						<form name="front">
-							<p><input type="checkbox" class="form-check-input" value="LS"/>LS</p>
-							<p><input type="checkbox" class="form-check-input" value="ST"/>ST</p>
-							<p><input type="checkbox" class="form-check-input" value="RS"/>RS</p>
-							<p><input type="checkbox" class="form-check-input" value="LF"/>LF</p>
-							<p><input type="checkbox" class="form-check-input" value="CF"/>CF</p>
-							<p><input type="checkbox" class="form-check-input" value="RF"/>RF</p>
-						</form>
-					</div>
-				</div>
-			</div>
-			<button type="submit" class="btn btn-primary" onclick="submitBestPlayer();">Submit</button>
-			<!-- End Middle Bar-->
-			<!-- Football Canvas Start-->
-			<hr>
-			<div class="container" id="c-canvas-container">
-			</div>
-			<!-- Football Canvas End-->
-			<!-- Start Right Bar-->
-			<div class="col-2">
-				
-			</div>
-			<!-- End Right Bar-->
-		</div>
-	</div>
+<!-- Main -->
+<div class="row">
+    <!--Start Left Bar-->
+    <div class="col-2">
+        <div class="container">
+            <div class="list-group">
+                <a href="all_players.html">
+                    <button type="button" class="list-group-item list-group-item-action">All Players</button>
+                </a>
+                <button type="button" class="list-group-item list-group-item-action active">Best Players</button>
+                <a href="analysis.html">
+                    <button type="button" class="list-group-item list-group-item-action">Analysis</button>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- End Left Bar-->
+
+    <!-- Message Box -->
+    <div style="position: absolute;right: 50px;display: none" id="message-box"></div>
+
+    <!-- Start Middle Bar-->
+    <div class="col-8">
+        <div>
+            <div class="alert alert-primary" role="alert">
+                选择你心仪的十个位置来打造属于你的最强球队吧~
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="form-check">
+                    <h5>Back-Field</h5>
+                    <hr>
+                    <form name="back">
+                        <p><input type="checkbox" class="form-check-input" value="LWB"/>LWB</p>
+                        <p><input type="checkbox" class="form-check-input" value="RWB"/>RWB</p>
+                        <p><input type="checkbox" class="form-check-input" value="LB"/>LB</p>
+                        <p><input type="checkbox" class="form-check-input" value="LCB"/>LCB</p>
+                        <p><input type="checkbox" class="form-check-input" value="CB"/>CB</p>
+                    </form>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-check">
+                    <h5>Mid-Field</h5>
+                    <hr>
+                    <form name="mid">
+                        <div class="row">
+                            <div class="col-4">
+                                <p><input type="checkbox" class="form-check-input" value="LCM"/>LCM</p>
+                                <p><input type="checkbox" class="form-check-input" value="CM"/>CM</p>
+                                <p><input type="checkbox" class="form-check-input" value="RCM"/>RCM</p>
+                                <p><input type="checkbox" class="form-check-input" value="RM"/>RM</p>
+                                <p><input type="checkbox" class="form-check-input" value="LDM"/>LDM</p>
+                                <p><input type="checkbox" class="form-check-input" value="CDM"/>CDM</p>
+                                <p><input type="checkbox" class="form-check-input" value="RDM"/>RDM</p>
+                            </div>
+                            <div class="col-4">
+                                <p><input type="checkbox" class="form-check-input" value="LW"/>LW</p>
+                                <p><input type="checkbox" class="form-check-input" value="RW"/>RW</p>
+                                <p><input type="checkbox" class="form-check-input" value="LAM"/>LAM</p>
+                                <p><input type="checkbox" class="form-check-input" value="CAM"/>CAM</p>
+                                <p><input type="checkbox" class="form-check-input" value="RAM"/>RAM</p>
+                                <p><input type="checkbox" class="form-check-input" value="LM"/>LM</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="form-check">
+                    <!--fwd = ['LS', 'ST', 'RS','LF', 'CF', 'RF']-->
+                    <h5>Front-Field</h5>
+                    <hr>
+                    <form name="front">
+                        <p><input type="checkbox" class="form-check-input" value="LS"/>LS</p>
+                        <p><input type="checkbox" class="form-check-input" value="ST"/>ST</p>
+                        <p><input type="checkbox" class="form-check-input" value="RS"/>RS</p>
+                        <p><input type="checkbox" class="form-check-input" value="LF"/>LF</p>
+                        <p><input type="checkbox" class="form-check-input" value="CF"/>CF</p>
+                        <p><input type="checkbox" class="form-check-input" value="RF"/>RF</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" onclick="submitBestPlayer();">Submit</button>
+        <!-- End Middle Bar-->
+        <!-- Football Canvas Start-->
+        <hr>
+        <div class="container" id="c-canvas-container">
+        </div>
+        <!-- Football Canvas End-->
+        <!-- Start Right Bar-->
+        <div class="col-2">
+
+        </div>
+        <!-- End Right Bar-->
+    </div>
+</div>
 </body>
 <script>
-	renderFootballField(null);
+    renderFootballField(null);
 </script>
 </html>

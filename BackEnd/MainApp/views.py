@@ -9,22 +9,25 @@ FIFA_DIR = "./MainApp/static/csv/fifa.csv"
 # Should be READONLY
 df = pd.read_csv(FIFA_DIR, encoding="utf-8")
 ability = ['Crossing',
-       'Finishing', 'HeadingAccuracy', 'ShortPassing', 'Volleys', 'Dribbling',
-       'Curve', 'FKAccuracy', 'LongPassing', 'BallControl', 'Acceleration',
-       'SprintSpeed', 'Agility', 'Reactions', 'Balance', 'ShotPower',
-       'Jumping', 'Stamina', 'Strength', 'LongShots', 'Aggression',
-       'Interceptions', 'Positioning', 'Vision', 'Penalties', 'Composure',
-       'Marking', 'StandingTackle', 'SlidingTackle', 'GKDiving', 'GKHandling',
-       'GKKicking', 'GKPositioning', 'GKReflexes']
+           'Finishing', 'HeadingAccuracy', 'ShortPassing', 'Volleys', 'Dribbling',
+           'Curve', 'FKAccuracy', 'LongPassing', 'BallControl', 'Acceleration',
+           'SprintSpeed', 'Agility', 'Reactions', 'Balance', 'ShotPower',
+           'Jumping', 'Stamina', 'Strength', 'LongShots', 'Aggression',
+           'Interceptions', 'Positioning', 'Vision', 'Penalties', 'Composure',
+           'Marking', 'StandingTackle', 'SlidingTackle', 'GKDiving', 'GKHandling',
+           'GKKicking', 'GKPositioning', 'GKReflexes']
 
-def hello(request:HttpRequest):
+
+def hello(request: HttpRequest):
     with open("./MainApp/static/html/hello.html", mode="r") as fp:
         return HttpResponse(fp.read())
 
-def getFifaDataPage(request:HttpRequest):
+
+def getFifaDataPage(request: HttpRequest):
     # Read params
     page = None
     record = None
+    # 表单验证 参数必须存在
     try:
         page = int(request.GET.get('page', None))
         record = int(request.GET.get('record', None))
@@ -34,22 +37,28 @@ def getFifaDataPage(request:HttpRequest):
             return rf.getError("Page/Record must be positive!", None)
     except:
         return rf.getError("Page/Record must be integer!", None)
-    
+    #
     # Data extract
     maxquery = len(df)
-    start = (page-1)*record
-    end = page*record
+    start = (page - 1) * record
+    end = page * record
     if end >= maxquery:
         end = maxquery
-    ret:pd.DataFrame = df[start:end]
+
+    ret: pd.DataFrame = df[start:end].copy(deep=True)
     ret.drop(columns=['index'], inplace=True)
-    
+
     # Return Jason
     jason = ret.to_json(orient="records")
     return rf.getSucessful("Query OK!", jason)
 
 
-def getMaxDataPage(request:HttpRequest):
+'''
+ 获取数据库的最大页码，用于分页器显示最大页
+'''
+
+
+def getMaxDataPage(request: HttpRequest):
     # Read params
     record = None
     try:
@@ -60,12 +69,13 @@ def getMaxDataPage(request:HttpRequest):
             rf.getError("Record must be a positive integer!", None)
     except:
         return rf.getError("Record must be a positive integer!", None)
-    
-    return rf.getSucessful("Query OK!", math.ceil(len(df)/record))
 
-def importantAbilitites(request:HttpRequest):
+    return rf.getSucessful("Query OK!", math.ceil(len(df) / record))
+
+
+def importantAbilitites(request: HttpRequest):
     construct = pd.DataFrame()
-    best_players:pd.DataFrame = pd.DataFrame()
+    best_players: pd.DataFrame = pd.DataFrame()
     best_players['Name'] = df['Name']
     for group, features in df.groupby(by="Position")[ability].mean().iterrows():
         importantFeatures = dict(features.nlargest(5))
@@ -73,9 +83,10 @@ def importantAbilitites(request:HttpRequest):
     jason = construct.to_json()
     return rf.getSucessful("Query OK!", jason)
 
-def bestPlayers(request:HttpRequest):
+
+def bestPlayers(request: HttpRequest):
     construct = pd.DataFrame()
-    best_players:pd.DataFrame = pd.DataFrame()
+    best_players: pd.DataFrame = pd.DataFrame()
     best_players['Name'] = df['Name']
     jason = dict()
     for group, features in df.groupby(by="Position")[ability].mean().iterrows():
@@ -86,8 +97,11 @@ def bestPlayers(request:HttpRequest):
         for factor in construct[position]:
             best_players[position] += df[factor]
     for position in construct.columns:
-        jason[position] = best_players[['Name', position]].sort_values(by=position, ascending=False).dropna().reset_index(drop=True).iloc[0:5,0:2].to_json(orient="records")
+        jason[position] = best_players[['Name', position]].sort_values(by=position,
+                                                                       ascending=False).dropna().reset_index(
+            drop=True).iloc[0:5, 0:2].to_json(orient="records")
     return rf.getSucessful("Query OK!", jason)
+
 
 '''
 gk = ['GK']
@@ -95,7 +109,9 @@ fwd = ['LS', 'ST', 'RS','LF', 'CF', 'RF']
 mid = ['LW','RW', 'LAM', 'CAM', 'RAM', 'LM', 'LCM', 'CM', 'RCM', 'RM', 'LDM', 'CDM', 'RDM']
 dfd = ['LWB','RWB', 'LB', 'LCB', 'CB']
 '''
-def bestTeam(request:HttpRequest):
+
+
+def bestTeam(request: HttpRequest):
     jason = json.loads(request.body)
     c_gk = ['GK']
     c_dfd = jason["back"]
@@ -103,7 +119,7 @@ def bestTeam(request:HttpRequest):
     c_fwd = jason["front"]
     df = pd.read_csv(FIFA_DIR, encoding="utf-8")
     construct = pd.DataFrame()
-    best_players:pd.DataFrame = pd.DataFrame()
+    best_players: pd.DataFrame = pd.DataFrame()
     best_players['Name'] = df['Name']
     jason = dict()
     for group, features in df.groupby(by="Position")[ability].mean().iterrows():
@@ -115,7 +131,7 @@ def bestTeam(request:HttpRequest):
             best_players[position] += df[factor]
     for position in construct.columns:
         jason[position] = best_players[['Name', position]].sort_values(by=position, ascending=False).dropna().reset_index(drop=True).iloc[0:5,0:2]
-    
+
     choosed = {}
     # c_gk = ['GK']
     # c_dfd = ['LWB' , 'LCB' , 'RCB' , 'RWB']
@@ -132,3 +148,19 @@ def bestTeam(request:HttpRequest):
                     choosed[pos] = player
                     break
     return rf.getSucessful("Query OK!", choosed)
+
+
+'''
+ return top5 featured player  
+'''
+
+
+def featureRank(request: HttpRequest):
+    feature = request.GET.get("feature")
+    if not feature:
+        return rf.getError("feature name is required", None)
+    if not feature in df:
+        return rf.getError("feature name is invalid", None)
+    data = df.sort_values(feature, ascending=False).head(5)[
+        ["Photo","Name", "Age", "Nationality", "Position", "Overall",feature,"Real Face"]].to_json(orient="records")
+    return rf.getSucessful("Query OK!", data)
