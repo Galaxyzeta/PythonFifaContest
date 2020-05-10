@@ -1,5 +1,7 @@
 from django.http import HttpResponse
 import json
+
+
 class ResponseFactory:
 	def __init__(self) -> None:
 		pass

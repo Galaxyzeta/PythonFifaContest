@@ -12,6 +12,11 @@
 1. 在前端添加 Analysis 页面，调用后端给出的数据生成图表进行展示。
 2. 增加更多的后端分析函数，以备前端使用。
 
+##  Changelog
+
+1.加入了消息提示
+2.部分分析页面
+
 ## 用法
 1. 安装django pandas numpy
 2. cd BackEnd ==> python mange.py runserver 开启服务器
