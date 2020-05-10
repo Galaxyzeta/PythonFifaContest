@@ -8,6 +8,26 @@ import json
 FIFA_DIR = "./MainApp/static/csv/fifa.csv"
 # Should be READONLY
 df = pd.read_csv(FIFA_DIR, encoding="utf-8")
+
+
+def resolveWage(x):
+    if (x.endswith("K")):
+        return x[1:-1]
+    else:
+        return 0
+
+def resolveValue(x):
+    if (x.endswith("M")):
+        return float(x[1:-1])
+    elif (x.endswith("K")):
+        return float(x[1:-1])/10
+    else:
+        return 0
+
+df["Wage"] = df["Wage"].apply(resolveWage)
+df["Value"] = df["Value"].apply(resolveValue)
+df["Value"] = df["Value"].astype("int64")
+
 ability = ['Crossing',
            'Finishing', 'HeadingAccuracy', 'ShortPassing', 'Volleys', 'Dribbling',
            'Curve', 'FKAccuracy', 'LongPassing', 'BallControl', 'Acceleration',
@@ -130,7 +150,9 @@ def bestTeam(request: HttpRequest):
         for factor in construct[position]:
             best_players[position] += df[factor]
     for position in construct.columns:
-        jason[position] = best_players[['Name', position]].sort_values(by=position, ascending=False).dropna().reset_index(drop=True).iloc[0:5,0:2]
+        jason[position] = best_players[['Name', position]].sort_values(by=position,
+                                                                       ascending=False).dropna().reset_index(
+            drop=True).iloc[0:5, 0:2]
 
     choosed = {}
     # c_gk = ['GK']
@@ -162,5 +184,29 @@ def featureRank(request: HttpRequest):
     if not feature in df:
         return rf.getError("feature name is invalid", None)
     data = df.sort_values(feature, ascending=False).head(5)[
-        ["Photo","Name", "Age", "Nationality", "Position", "Overall",feature,"Real Face"]].to_json(orient="records")
+        ["Photo", "Name", "Age", "Nationality", "Position", "Overall", feature, "Real Face"]].to_json(orient="records")
     return rf.getSucessful("Query OK!", data)
+
+
+def scatterPot(request: HttpRequest):
+    factor1 = request.GET.get("factor1")
+    factor2 = request.GET.get("factor2")
+    if not factor1 or not factor2:
+        return rf.getError("feature name is required", None)
+    if not (factor1 in df) or not (factor2 in df):
+        return rf.getError("feature name is invalid", None)
+    metaColumns = ["Photo", "Name", "Age", "Nationality", "Position", "Overall", "Real Face"]
+    if factor1 not in metaColumns:
+        metaColumns.append(factor1)
+    if factor2 not in metaColumns:
+        metaColumns.append(factor2)
+    data = df.sort_values('Overall', ascending=False)[metaColumns].head(500).to_json(orient="records")
+    return rf.getSucessful("Query OK!", data)
+
+
+# Range : a condition
+# Groupby : column name ,a scatter value like country
+def piePot(request: HttpRequest):
+    target = request.GET.get("target")
+    min = request.GET.get("min")
+    groupBy = request.GET.get("groupby")

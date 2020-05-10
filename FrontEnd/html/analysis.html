@@ -5,7 +5,7 @@
     <title>Analysis</title>
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
     <script src="../js/test.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@4.7.0/dist/echarts.min.js"></script>
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css">
     <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="../css/custom.css">
@@ -49,7 +49,10 @@
                     <option value="HeadingAccuracy">过于头铁</option>
                     <option value="FKAccuracy">把锁关了吧</option>
                     <option value="Vision">透视关一下</option>
-                    <option value="Wage">过于有钱</option>
+                    <option value="Reactions">反应过快</option>
+                    <option value="BallControl">是控球大师</option>
+                    <option value="LongShots">最会开大脚</option>
+                    <option value="SlidingTackle">滑铲很秀</option>
                 </select>
                 <button id="feature-btn" class="btn btn-info ml-4">查询</button>
                 <script>
@@ -81,6 +84,68 @@
                 -->
                 </tbody>
             </table>
+
+            <div class="my-4">
+                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">老当益壮 <span class="d-block bg-dark">年龄&&总评</span></span>
+              <!-- <span class="d-block p-2 bg-success text-white">d-block</span>-->
+                <div id="chart-1" style="width: 1200px;height: 400px;max-height: 800px" class="col-12"></div>
+                <script>
+                    debug=true
+                    renderScatterPot("chart-1","Age","Overall")
+                </script>
+            </div>
+
+            <div class="my-4">
+                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">大力出奇迹<span class="d-block bg-dark">脚力&&进球</span></span>
+              <!-- <span class="d-block p-2 bg-success text-white">d-block</span>-->
+                <div id="chart-2" style="width: 1200px;height: 400px;max-height: 800px" class="col-12"></div>
+                <script>
+                    debug=true
+                    renderScatterPot("chart-2","ShotPower","Finishing")
+                </script>
+            </div>
+
+            <div class="my-4">
+                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">按v开启鹰眼<span class="d-block bg-dark">任意球精准度&&视力</span></span>
+              <!-- <span class="d-block p-2 bg-success text-white">d-block</span>-->
+                <div id="chart-3" style="width: 1200px;height: 400px;max-height: 800px" class="col-12"></div>
+                <script>
+                    debug=true
+                    renderScatterPot("chart-3","FKAccuracy","Vision")
+                </script>
+            </div>
+
+            <div class="my-4">
+                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">经验丰富 <span class="d-block bg-dark">年龄&&薪资</span></span>
+              <!-- <span class="d-block p-2 bg-success text-white">d-block</span>-->
+                <div id="chart-4" style="width: 1200px;height: 400px;max-height: 800px" class="col-12"></div>
+                <script>
+                    debug=true
+                    renderScatterPot("chart-4","Age","Wage")
+                </script>
+            </div>
+
+            <div class="my-4">
+                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">冷静"过人"：越冷静的人是不是过人越强呢<span class="d-block bg-dark">冷静&&过人</span></span>
+              <!-- <span class="d-block p-2 bg-success text-white">d-block</span>-->
+                <div id="chart-5" style="width: 1200px;height: 400px;max-height: 800px" class="col-12"></div>
+                <script>
+                    debug=true
+                    renderScatterPot("chart-5","Composure","Crossing")
+                </script>
+            </div>
+
+            <div class="my-4">
+                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">精准打击： <span class="d-block bg-dark">球员价值&&任意球精准度</span></span>
+              <!-- <span class="d-block p-2 bg-success text-white">d-block</span>-->
+                <div id="chart-6" style="width: 1200px;height: 400px;max-height: 800px" class="col-12"></div>
+                <script>
+                    debug=true
+                    renderScatterPot("chart-6","FKAccuracy","Value")
+                </script>
+            </div>
+
+
         </div>
         <!-- End Middle Bar-->
         <!-- Start Right Bar-->

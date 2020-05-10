@@ -169,7 +169,7 @@ function renderData(data) {
  * @param success
  * @constructor
  */
-function ShowMessage(message, success) {
+function showMessage(message, success) {
     message = message || "你忘记填参数啦~"
     var className = (!success) ? "bg-danger" : "bg-success"
     var messageBox = document.getElementById("message-box")
@@ -188,9 +188,15 @@ function ShowMessage(message, success) {
     messageContainer.appendChild(messageBody)
     messageBox.appendChild(messageContainer)
     $("#message-box").show(200)
-    setTimeout(function () {
-        $("#message-box").hide(200)
-    }, 2000)
+    if (debug) {
+        setTimeout(function () {
+            $("#message-box").hide(200)
+        }, 10000)
+    } else {
+        setTimeout(function () {
+            $("#message-box").hide(200)
+        }, 2000)
+    }
 
 }
 
@@ -201,8 +207,8 @@ function ShowMessage(message, success) {
  */
 function renderFeatureData(data, feature) {
     var tableHead = document.getElementById("table-columns")
-    var featureTh = document.getElementById('feature-th') ||document.createElement("th")
-    featureTh.id="feature-th"
+    var featureTh = document.getElementById('feature-th') || document.createElement("th")
+    featureTh.id = "feature-th"
     featureTh.textContent = feature
     tableHead.appendChild(featureTh)
     var tbody = document.getElementById("mainInject");
@@ -220,7 +226,7 @@ function renderFeatureData(data, feature) {
         td.appendChild(img)
         tr.appendChild(td);
         debugger;
-        var dataColumns = ["Name", "Age", "Nationality", "Position", "Overall",feature]
+        var dataColumns = ["Name", "Age", "Nationality", "Position", "Overall", feature]
         for (var j = 0; j < dataColumns.length; j++) {
             var td2 = document.createElement("td");
             td2.textContent = data[i][dataColumns[j]];
@@ -237,19 +243,119 @@ function queryFeature() {
         function (res) {
             switch (res) {
                 case "":
-                    ShowMessage("获取失败")
+                    showMessage("获取失败")
                 default:
                     var data = JSON.parse(res)
-                    ShowMessage("获取成功~",true)
-                    renderFeatureData(data,val)
+                    showMessage("获取成功~", true)
+                    renderFeatureData(data, val)
             }
         }
     ).catch((a) => {
-        ShowMessage("获取失败:"+a.toString(),false)
+        showMessage("获取失败:" + a.toString(), false)
         console.log(a)
     })
 }
 
+function renderScatterPot(id, factor1, factor2) {
+    var target = document.getElementById(id)
+    console.log(target)
+    console.log(!!target)
+    if (!!!target) {
+        showMessage("元素" + id + "不存在")
+    } else {
+        const url = urlPref + "scatter?factor1=" + factor1 + "&factor2=" + factor2;
+        ajax("get", url).then(function (res) {
+            res = JSON.parse(res)
+            if (!!!res) {
+                showMessage("Error Getting Response,Plz Check in Chrome:" + url)
+            } else {
+                var metaContainer = ["Name"]
+                var columnContainer = [factor1, factor2]
+                columnContainer.push(...metaContainer)
+                var itemContainer = []
+                for (var i = 0; i < res.length; i++) {
+                    var item = []
+                    for (var k = 0; k < columnContainer.length; k++) {
+                        item.push(res[i][columnContainer[k]])
+                    }
+                    itemContainer.push(item)
+                }
+                console.log(itemContainer)
+                var option = {
+                    tooltip: {
+                        trigger: 'axis',
+                        showDelay: 0,
+                        axisPointer: {
+                            show: true,
+                            type: 'cross',
+                            lineStyle: {
+                                type: 'dashed',
+                                width: 1
+                            }
+                        }
+                    },
+                    legend: {
+                        data: [factor1+" 比较 "+factor2]
+                    },
+                    toolbox: {
+                        show: true,
+                        feature: {
+                            mark: {show: true},
+                            dataZoom: {show: true},
+                            dataView: {show: true, readOnly: false},
+                            restore: {show: true},
+                            saveAsImage: {show: true}
+                        }
+                    },
+                    xAxis: [
+                        {
+                            type: 'value',
+                            splitNumber: 1,
+                            scale: true
+                        }
+                    ],
+                    yAxis: [
+                        {
+                            type: 'value',
+                            splitNumber: 1,
+                            scale: true
+                        }
+                    ],
+                    series: [
+                        {
+                            name:factor1+" 比较 "+factor2,
+                            type: 'scatter',
+                            symbolSize: function (value) {
+                                return Math.round((value[0] + value[1]) / 5);
+                            },
+                            data: itemContainer
+                        }
+                    ]
+                };
+                var sampleChart = echarts.init(target)
+                sampleChart.setOption(option)
+            }
+        })
+    }
+
+}
+
+
+/**
+ *             <div class="my-4">
+                <span class="d-block p-2 bg-primary text-white d-flex flex-row justify-content-between">老当益壮 <span class="d-block bg-dark">年龄&&总评</span></span>
+              <!-- <span class="d-block p-2 bg-success text-white">d-block</span>-->
+                <div id="chart-2" style="width: 1200px;height: 400px;max-height: 800px" class="col-12"></div>
+                <script>
+                    debug=true
+                    renderScatterPot("chart-2","Age","Overall")
+                </script>
+            </div>
+ */
+
+function renderMultScatter(factorList,NameList){
+
+}
 
 /**
  * Turn useless photo url into one that actually works.
@@ -342,7 +448,7 @@ function submitBestPlayer() {
         }
     }
     if (backContainer.length + midContainer.length + frontContainer.length != 10) {
-        ShowMessage("歪 十个人不能多不能少嗷")
+        showMessage("歪 十个人不能多不能少嗷")
         return;
     }
 
